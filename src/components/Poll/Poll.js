@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { fetchSinglePollQuestion } from "../../api/index";
+import { fetchSinglePollQuestion, fetchPollResponses } from "../../api/index";
 
 class Poll extends Component {
   constructor() {
@@ -12,19 +12,26 @@ class Poll extends Component {
 
   componentDidMount() {
     const {pollId} = this.props.match.params;
-    this.getPoll(pollId)
-      .then(res => res.json())      
-      .then(res => res.message)
-      .then(message =>
-        this.setState({
-          pollGroup: message.selectedPollGroup,
-          pollQuestion: message.pollQuestion
-        })
-      );
+    // this.getPoll(pollId)
+    //   .then(res => res.json())      
+    //   .then(res => res.message)
+    //   .then(message =>
+    //     this.setState({
+    //       pollGroup: message.selectedPollGroup,
+    //       pollQuestion: message.pollQuestion
+    //     })
+    //   );
+    this.getResponses(pollId)
+      .then(res => res.json())
+      .then(res => console.log(res));
   }
 
   getPoll = (id) => {
     return fetchSinglePollQuestion(id);
+  }
+
+  getResponses = (id) => {
+    return fetchPollResponses(id);
   }
 
   render() {
